@@ -1,0 +1,7 @@
+<form>
+    <label> Account number:</label>
+    <img width="25" height="25" [src]="info?.avatar_url" alt="" />
+    <p>{{info|json}}</p>
+    <p>Something</p>
+    <button type="button" (click)="getInfo()">Click me</button>
+</form>
