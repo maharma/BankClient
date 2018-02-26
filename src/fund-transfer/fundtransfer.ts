@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, FormControl, Validators, NgForm } from '@angula
 
 export class FundTransferComponent {
 
+    public baseUri: string;
     public info: string;
     public message: string;
     public messageClass: string;
@@ -21,7 +22,7 @@ export class FundTransferComponent {
     Amount: number;
 
     constructor(private frmbuilder: FormBuilder, private http: Http) {
-
+        this.baseUri = "http://localhost:56684/";
         this.fundTransferForm = frmbuilder.group({
             bsb: [this.BSB, Validators.compose([Validators.required, Validators.max(999), Validators.min(100)])],
             accountNumber: [this.AccountNumber, Validators.compose([Validators.required, Validators.maxLength(10), Validators.minLength(10)])],
@@ -46,7 +47,7 @@ export class FundTransferComponent {
     public transfer(signupForm: NgForm) {
         const headers = new Headers({ 'Content-Type': 'application/json', 'token': 'Welcome to My World Bank!' });
         console.log(this.fundTransferForm.value);
-        this.http.post('http://localhost:56684//api/funds/transfer', this.fundTransferForm.value, { headers: headers })
+        this.http.post(this.baseUri + 'api/funds/transfer', this.fundTransferForm.value, { headers: headers })
         .subscribe((response) => {
             if (response.status == 200 || response.status == 204) {
                 this.handleMessage("Successfully Trsafered..!!", 'success');
