@@ -1,7 +1,73 @@
-<form>
-    <label> Account number:</label>
-    <img width="25" height="25" [src]="info?.avatar_url" alt="" />
-    <p>{{info|json}}</p>
-    <p>Something</p>
-    <button type="button" (click)="getInfo()">Click me</button>
-</form>
+<div class="container-fluid">
+    <div class={{messageClass}}> {{message}} </div>
+    <form [formGroup]='fundTransferForm' (ngSubmit)="transfer(fundTransferForm)">
+        <div class="form-container form-group">
+            <div>
+                <div form-group row>
+                    <label for="bsb" col-sm-2 col-form-label>BSB: </label>
+                    <input type="number" class="col-sm-10 form-control" formControlName='bsb' required>
+                </div>
+                <div class="alert-danger" *ngIf="fundTransferForm.controls['bsb'].touched && !fundTransferForm.controls['bsb'].valid">
+                    *Errors:
+                    <span *ngIf="fundTransferForm.controls['bsb'].hasError('required') ">
+                        BSB is required
+                    </span>
+                    <span *ngIf="fundTransferForm.controls['bsb'].hasError('min') ">
+                        Min length is 3
+                    </span>
+                    <span *ngIf="fundTransferForm.controls['bsb'].hasError('max') ">
+                        Max length is 3
+                    </span>
+                </div>
+                <br>
+                <div>
+                    <label for="accountNumber"  col-sm-2 col-form-label>Account Number: </label>
+                    <input type="text" class="col-sm-10 form-control"  formControlName='accountNumber' required />
+                </div>
+                <div class="alert-danger" *ngIf="fundTransferForm.controls['accountNumber'].touched && !fundTransferForm.controls['accountNumber'].valid">
+                    *Errors:
+                    <span *ngIf="fundTransferForm.controls['accountNumber'].hasError('required') ">
+                        Account number is required.
+                    </span>
+                    <span *ngIf="fundTransferForm.controls['accountNumber'].hasError('minlength') ">
+                        Account Number should 10 char length.
+                    </span>
+                    <span *ngIf="fundTransferForm.controls['accountNumber'].hasError('maxlength') ">
+                        Account Number should 10 char length.
+                    </span>
+                </div>
+                <br>
+                <div>
+                    <label for="accountName"  col-sm-2 col-form-label>Account Name: </label>
+                    <input type="text" class="col-sm-10 form-control"  formControlName='accountName' required>
+                </div>
+                <br>
+                <div>
+                    <label for="reference" col-sm-2 col-form-label>Reference: </label>
+                    <input type="text" class="col-sm-10 form-control" formControlName='reference'>
+                </div>
+                <br>
+                <div>
+                    <label for="amount"  col-sm-2 col-form-label>Amount: </label>
+                    <input type="number" class="col-sm-10 form-control" formControlName='amount' required>
+                </div>
+                <div class="alert-danger" *ngIf="fundTransferForm.controls['amount'].touched && !fundTransferForm.controls['amount'].valid">
+                    *Errors:
+                    <span *ngIf="fundTransferForm.controls['amount'].hasError('required') ">
+                        Amount is required.
+                    </span>
+                    <span *ngIf="fundTransferForm.controls['amount'].hasError('min') ">
+                            Amount should be greater than 1$.
+                    </span>
+                    <span *ngIf="fundTransferForm.controls['amount'].hasError('max') ">
+                            Amount should be less than 100K$.
+                    </span>
+                </div>
+                <br>
+                <div>
+                    <input type="Submit" class="btn btn-primary" [disabled]="!fundTransferForm.valid" value="Transfer">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
